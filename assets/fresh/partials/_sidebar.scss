@@ -1,13 +1,13 @@
-/* ==========================================================================
+/* ========================================================================== 
 Sidebar Styles 
 ========================================================================== */
 
-//Sidebar animated icon trigger
+// Sidebar animated icon trigger
 .menu-icon-wrapper {
     position: relative;
-    left: 0;
+    right: 0;
+    left: auto;
     top: 0;
-    //margin: -12px 0px 0px -12px;
     width: 34px;
     height: 34px;
     pointer-events: none;
@@ -15,9 +15,10 @@ Sidebar Styles
     svg {
         position: absolute;
         top: -18px;
-        left: -18px;
+        right: -18px;
+        left: auto;
         transform: scale(0.07);
-        transform-origin: 0 0;
+        transform-origin: 100% 0;
         path {
             stroke: $secondary;
             stroke-width: 40px;
@@ -67,20 +68,21 @@ Sidebar Styles
     }
 }
 
-//Sidebar
+// Sidebar
 .sidebar {
     background: $dark-grey;
     width: 280px;
     height: 100%;
     position: fixed;
     top: 0;
-    left: 0;
-    transform: translateX(-281px);
+    right: 0; /* Changed from left to right */
+    left: auto;
+    transform: translateX(281px); /* Sidebar hidden off-screen to the right */
     transition: all .3s;
     z-index: 10000;
     overflow-y: auto;
     &.is-active {
-        transform: translateX(0);
+        transform: translateX(0); /* Slide in from the right */
     }
     .sidebar-header {
         height: 4.25rem;
@@ -114,7 +116,6 @@ Sidebar Styles
             padding: 0;
             max-width: 400px;
             list-style: none;
-            list-style-type: none;
             font-family: 'Open Sans', sans-serif !important;
             li {
                 a {
@@ -124,13 +125,13 @@ Sidebar Styles
                     color: $white;
                     &:hover {
                         padding: 20px 25px;
-                        display: block;
                         text-decoration: none;
                         color: $white;
                     }
                 }
                 a span {
-                    margin-right: 20px;
+                    margin-left: 20px; /* Adjusted for RTL */
+                    margin-right: 0;
                     color: $white;
                 }
                 &.have-children {
@@ -140,19 +141,21 @@ Sidebar Styles
                     li {
                         a {
                             background-color: darken($dark-grey, 5%);
-                            padding-left: 62px;
+                            padding-right: 62px; /* Adjusted for RTL */
+                            padding-left: 0;
                             border-bottom: 1px solid darken($dark-grey, 2%);
                             font-size: .8rem;
                             &:hover {
                                 color: $primary;
-                                padding-left: 62px;
+                                padding-right: 62px; /* Consistent RTL */
                             }
                         }
                     }
                     span::after {
                         position: absolute;
                         top: 27px;
-                        right: 30px;
+                        left: 30px; /* Arrow on the left side for RTL */
+                        right: auto;
                         content: "\f054";
                         color: $white;
                         transition: all .5s;
@@ -165,14 +168,13 @@ Sidebar Styles
         li.have-children, li {
             position: relative;
         }
-        li.have-children.active > a, li.have-children.active > a span, li.have-children.active > a span:after {
+        li.have-children.active > a, 
+        li.have-children.active > a span, 
+        li.have-children.active > a span:after {
             color: $secondary;
         }
         li.active.have-children span::after {
-            -moz-transform: rotate(90deg);
-            -o-transform: rotate(90deg);
-            -webkit-transform: rotate(90deg);
-            transform: rotate(90deg);
+            transform: rotate(-90deg); /* Adjust rotation for RTL if needed */
         }
         .sidebar-menu .have-children > ul {
             display: none;

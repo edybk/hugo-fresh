@@ -11,7 +11,7 @@
     </div>
 
     <div class="content-wrapper">
-      <div class="columns">
+      <div class="columns is-multiline">
         {{- range $tiles }}
         <div class="column is-one-third">
           <div class="feature-card is-bordered has-text-centered revealOnScroll delay-1" data-animation="fadeInLeft">
@@ -27,6 +27,7 @@
             <div class="card-action">
               <a href="{{ .url }}" class="button btn-align-md accent-btn raised">{{ .buttonText }}</a>
             </div>
+          </br>
           </div>
         </div>
         {{- end }}
