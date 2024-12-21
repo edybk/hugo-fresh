@@ -7,6 +7,8 @@
 {{- $action     := index $section5 "action" }}
 {{- $method     := index $section5 "method" }}
 {{- $buttonText := index $section5 "buttontext" | default "שלח הודעה" }}
+{{- $mailToAddress   := .Site.Params.mailToAddress }}
+
 <section class="section section-light-grey is-medium" id="section5">
   <div class="container">
     <div class="title-wrapper-right">
@@ -18,20 +20,21 @@
     <div class="content-wrapper">
       <div class="columns">
         <div class="column is-6 is-offset-3">
-          <form{{ with $action }} action="{{ . }}"{{end}}{{ with $method }} method="{{ . }}"{{end}}>
+          <form{{ with $action }} action="{{ . }}"{{end}}{{ with $method }} method="{{ . }}"{{end}} id="contact-us-form">
             <div class="columns is-multiline">
               <div class="column is-6">
-                <input class="input is-medium" name="name" type="text" placeholder="הזן את שמך">
+                <input class="input is-medium" id="name" name="name" type="text" placeholder="הזן את שמך">
               </div>
               <div class="column is-6">
-                <input class="input is-medium" name="email" type="email" placeholder="הזן את כתובת האימייל שלך">
+                <input class="input is-medium" id="email" name="email" type="email" placeholder="הזן את כתובת האימייל שלך">
               </div>
               <div class="column is-12">
-                <textarea class="textarea" name="message" rows="10" placeholder="כתוב משהו..."></textarea>
+                <textarea class="textarea" id="message" name="message" rows="10" placeholder="כתוב משהו..."></textarea>
               </div>
               <div class="form-footer has-text-centered mt-10">
-                <button class="button cta is-large secondary-btn raised is-clear">{{ $buttonText }}</button>
+                <button type="submit" class="button cta is-large secondary-btn raised is-clear">{{ $buttonText }}</button>
               </div>
+              <input type="hidden" id="mail_to_address" name="mail_to_address" value="{{ $mailToAddress }}">
             </div>
           </form>
         </div>
@@ -39,3 +42,28 @@
     </div>
   </div>
 </section>
+
+<script>
+  document.getElementById('contact-us-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Retrieve user input
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+
+    // Define the recipient email and subject
+    const recipient = document.getElementById('mail_to_address').value;
+    const subject = `פניה דרך האתר מ-  ${name}`;
+
+    // Construct the body of the email
+    const rlm = '\u200F'; // Right-to-Left Mark
+    const body = `${rlm}שם: ${name}%0Aכתובת מייל: ${email}%0A---%0A%0A${encodeURIComponent(message)}%0A%0A---%0Aנשלח מהאתר.`;
+
+    // Create the mailto URL
+    const mailtoURL = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${body}`;
+
+    // Open the default email client with the pre-filled details
+    window.location.href = mailtoURL;
+  });
+</script>
