@@ -42,6 +42,19 @@ Section Styles
     }
 }
 
+.title-wrapper-right {
+    max-width: 500px;
+    .title, .subtitle {
+        font-family: 'Open Sans', sans-serif;
+
+    }
+    .subtitle {
+        &.is-muted {
+            color: $muted-grey;
+        }
+    }
+}
+
 //Divider
 .divider {
     height: 3px;
